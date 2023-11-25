@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1"
+                                        >
+
+
+
+<body>
+    <div layout:fragment="pageContent">
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">Liste des recettes</div>
+                <div class="card-body">
+
+                    <form method="get" th:action="@{/user/recettes}">
+                        <div class="from-group">
+                            <label>Name</label>
+                            <input type="text" name="keyword" th:value=${keyword}>
+                            <button class="btn btn-success">Chercher</button>
+                        </div>
+                    </form>
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <th>name</th>
+                            <th>ingredients</th>
+                            <th>etapesPreparation</th>
+                            <th>dureePreparation</th>
+                        </tr>
+
+                        <tr th:each="p:${recettes}">
+                            <td th:text="${p.id}"></td>
+                            <td th:text="${p.name}"></td>
+                            <td th:text="${p.ingredients}"></td>
+                            <td th:text="${p.etapesPreparation}"></td>
+                            <td th:text="${p.dureePreparation}"></td>
+                            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+
+                                <a onclick="return confirm('Etes vous sure de vouloir supprimer ?')"
+                                   class="btn btn-danger" th:href="@{/admin/deleteRecette(id=${p.id},keyword=${keyword},page=${currentPage},size=${size})}">Delete</a>
+                            </td>
+
+                            <td th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                                <a class="btn btn-success" th:href="@{/admin/editRecette(id=${p.id})}">Edit</a>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <ul class="nav nav-pills">
+                        <li th:each="page,status:${pages}">
+                            <a th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                               th:href="@{/user/recettes(page=${status.index},keyword=${keyword},size=${size})}" th:text="${status.index+1}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

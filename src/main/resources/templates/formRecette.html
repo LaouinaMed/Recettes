@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeLeaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template1">
+<head>
+    <meta charset="UTF-8">
+    <title>Form recette</title>
+</head>
+<body>
+    <div layout:fragment="pageContent" >
+      <div class="container mt-5">
+          <div class="col-md-8">
+              <div class="card">
+                  <!--<div class="card-header" th:if="${recette.id==null}">Formulaire de saisie d'un nouvelle recette</div>
+                  <div class="card-header" th:if="${recette.id!=null}">Formulaire de mise a jour d'une recette</div>-->
+                  <div class="card-header" th:if="${mode=='new'}">Formulaire de saisie d'une nouvelle recette</div>
+                  <div class="card-header" th:if="${mode=='edit'}">Formulaire de mise a jour d'une recette</div>
+                  <div class="card-body">
+                      <form th:action="@{saveRecette}" method="post">
+
+                          <div class="form-group">
+                              <label class="control-label">ID:</label>
+                              <label class="control-label" th:text="${recette.id}"></label>
+                              <input type="hidden" name="id" class="form-control" th:value="${recette.id}" >
+
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label">Name:</label>
+                              <input type="text" name="name" class="form-control" th:value="${recette.name}" >
+                              <span  class="text-danger" th:errors="${recette.name}"></span>
+                          </div>
+
+
+                          <div class="form-group">
+                              <label class="control-label">DureePreparation</label>
+                              <input type="text" name="dureePreparation" class="form-control" th:value="${recette.dureePreparation}" >
+                              <span  class="text-danger" th:errors="${recette.dureePreparation}"></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label">Ingredients:</label>
+                              <input type="text" name="ingredients" class="form-control" th:value="${recette.ingredients}" >
+                              <span  class="text-danger" th:errors="${recette.ingredients}"></span>
+                          </div>
+
+                          <div class="form-group">
+                              <label class="control-label">EtapesPreparation:</label>
+                              <input type="text" name="etapesPreparation" class="form-control" th:value="${recette.etapesPreparation}" >
+                              <span  class="text-danger" th:errors="${recette.etapesPreparation}"></span>
+                          </div>
+
+
+
+                          <button  class="btn btn-success" type="submit"  >Save</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+    </div>
+</body>
+</html>
